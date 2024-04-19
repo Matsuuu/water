@@ -5,9 +5,15 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-      "test": "node --test"
+    "test": "node --test"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.12.7"
+  },
+  "dependencies": {
+    "typescript": "^5.4.5"
+  }
 }
