@@ -1,4 +1,5 @@
 import * as fs from "fs";
+import * as readline from "readline";
 
 /**
  * @param {string} filePath
@@ -27,4 +28,24 @@ async function readStream(filePath, range) {
         })
         stream.on("close", () => resolve(bufferedStream));
     });
+}
+
+/**
+ * @param {string} filePath
+ * @param {number} lineIndex
+ */
+export function readFileLine(filePath, lineIndex) {
+    return new Promise(resolve => {
+        const rl = readline.createInterface({
+            input: fs.createReadStream(filePath)
+        });
+
+        let index = 1;
+        rl.on("line", line => {
+            if (index === lineIndex) {
+                resolve(line);
+            }
+            index++;
+        });
+    })
 }
