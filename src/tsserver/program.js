@@ -23,3 +23,11 @@ export function getProgramForProject(projectRoot, fileNames) {
 
     return program;
 }
+
+/**
+ * @param {import("typescript").SourceFile} sourceFile
+ * @param {import("../types").Position} position
+ */
+export function getNodeAtPosition(sourceFile, position) {
+    // TODO: Get node at position
+}
