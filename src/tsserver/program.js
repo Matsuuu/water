@@ -6,7 +6,7 @@ const PROGRAM_CACHE = new Map();
 /** @type { import("typescript").CompilerOptions } */
 const TS_OPTIONS = {
     // TODO
-
+    allowJs: true,
 }
 
 /**
