@@ -1,0 +1,13 @@
+{
+  "name": "water",
+  "version": "1.0.0",
+  "description": "The Javascript REPL server",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+      "test": "node --test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
