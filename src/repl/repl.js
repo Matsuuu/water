@@ -23,5 +23,5 @@ export function initializeRepl(projectRoot) {
     };
 
     saveReplSession(projectRoot, replSession);
-    return undefined;
+    return replSession;
 }
