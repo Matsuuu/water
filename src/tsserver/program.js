@@ -1,8 +1,5 @@
 import ts from "typescript";
 
-/** @type { Map<string, ts.Program> } */
-const PROGRAM_CACHE = new Map();
-
 /** @type { import("typescript").CompilerOptions } */
 const TS_OPTIONS = {
     // TODO
@@ -10,18 +7,35 @@ const TS_OPTIONS = {
 }
 
 /**
- * @param {string} projectRoot
- * @param {string[]} fileNames
- */
-export function getProgramForProject(projectRoot, fileNames) {
-    if (PROGRAM_CACHE.has(projectRoot)) {
-        return PROGRAM_CACHE.get(projectRoot);
+    * @param {string} projectRoot 
+    * @returns { import(".").LanguageServices }
+    * */
+export function getLanguageServices(projectRoot) {
+    const configFilePath = findConfigFile(projectRoot);
+    if (!configFilePath) {
+        throw new Error("Could not find a project root");
     }
 
-    const compilerHost = ts.createCompilerHost(TS_OPTIONS, true);
-    const program = ts.createProgram(fileNames, TS_OPTIONS, compilerHost);
+    const compilerHost = ts.createWatchCompilerHost(configFilePath, TS_OPTIONS, ts.sys);
+    const program = ts.createWatchProgram(compilerHost);
 
-    PROGRAM_CACHE.set(projectRoot, program);
+    return {
+        program,
+        compilerHost
+    }
+}
 
-    return program;
+/**
+    * @param {string} projectRoot 
+    * @returns { string | undefined }
+    * */
+export function findConfigFile(projectRoot) {
+    let configFile = ts.findConfigFile(projectRoot, ts.sys.fileExists, "tsconfig.json");
+    if (configFile) return configFile;
+
+    configFile = ts.findConfigFile(projectRoot, ts.sys.fileExists, "jsconfig.json");
+    if (configFile) return configFile;
+
+    configFile = ts.findConfigFile(projectRoot, ts.sys.fileExists, "package.json");
+    return configFile;
 }

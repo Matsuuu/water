@@ -4,6 +4,7 @@ import assert from 'node:assert/strict';
 import { getFileSelection, getFunctionSelection, getLineSelection, getRangeSelection } from "../src/selection/selection.js";
 import path from "path";
 
+const PROJECT_ROOT = process.cwd();
 const BASIC_FIXTURE = path.resolve("./fixtures/basic.fixture.js");
 
 test("Reading file without range", async () => {
@@ -22,7 +23,7 @@ test("Reading file line", async () => {
 });
 
 test("Reading file function", async () => {
-    const functionSelection = getFunctionSelection(BASIC_FIXTURE, { line: 3, character: 10 })
+    const functionSelection = getFunctionSelection(PROJECT_ROOT, BASIC_FIXTURE, { line: 3, character: 10 })
 
     assert.notEqual(functionSelection, undefined);
     assert.equal(functionSelection.name?.getText(), "printThing");

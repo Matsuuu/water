@@ -1,13 +1,14 @@
 import test from "node:test";
-import { getProgramForProject } from "../src/tsserver/program.js";
 import assert from "node:assert";
+import { getLanguageServices } from "../src/tsserver/program.js";
+import path from "path";
+
+const PROJECT_ROOT = process.cwd();
+const BASIC_FIXTURE = path.resolve("./fixtures/basic.fixture.js");
 
 test("Test project sets up properly", () => {
-    const TEST_FILE = "./fixtures/basic.fixture.js"
-    const TEST_FILE_NO_RELATIVE = "fixtures/basic.fixture.js"
+    const { program } = getLanguageServices(PROJECT_ROOT);
 
-    const program = getProgramForProject(process.cwd(), [TEST_FILE]);
-
-    assert.ok(program.getSourceFiles().find(sf => sf.fileName === TEST_FILE_NO_RELATIVE) !== undefined)
+    assert.ok(program.getProgram().getSourceFiles().find(sf => sf.fileName === BASIC_FIXTURE) !== undefined)
 });
 

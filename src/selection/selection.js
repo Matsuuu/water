@@ -1,8 +1,10 @@
-import { getNodeAtPosition, getParentNodeByCondition } from "../ast/finder.js";
-import { readFileLine, readFileRange } from "../file/file.js";
-import { getProgramForProject } from "../tsserver/program.js";
-import ts from "typescript";
+import { getNodeAtPosition, getParentNodeByCondition } from '../ast/finder.js';
+import { readFileLine, readFileRange } from '../file/file.js';
+import ts from 'typescript';
+import { getLanguageServices } from '../tsserver/program.js';
 
+// TODO: Make these work with a request object.
+// We need the file, the action and the project root from the client
 
 /**
  * @param {string} filePath
@@ -28,14 +30,17 @@ export function getLineSelection(filePath, lineNumber) {
 }
 
 /**
+ * @param {string} projectRoot
  * @param {string} filePath
  * @param {import("../types").Position} position
-    * @returns { ts.FunctionLikeDeclaration }
+ * @returns { ts.FunctionLikeDeclaration }
  */
-export function getFunctionSelection(filePath, position) {
-    const program = getProgramForProject(process.cwd(), [filePath]);
-    const sf = program.getSourceFile(filePath);
-    const nodeAtPosition = getNodeAtPosition(sf, { line: 3, character: 10 })
+export function getFunctionSelection(projectRoot, filePath, position) {
+    const languageServices = getLanguageServices(projectRoot);
+    const program = languageServices.program;
+
+    const sf = program.getProgram().getSourceFile(filePath);
+    const nodeAtPosition = getNodeAtPosition(sf, position);
 
     const functionChecker = (/** @type {ts.Node} */ node) => {
         return ts.isFunctionDeclaration(node);
@@ -43,4 +48,3 @@ export function getFunctionSelection(filePath, position) {
 
     return getParentNodeByCondition(nodeAtPosition, functionChecker);
 }
-
