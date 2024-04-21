@@ -5,7 +5,6 @@ import { getTokenAtPosition } from './ts-utils.js';
  * @typedef {(node: ts.Node) => boolean } CheckerFunction
  * */
 
-
 /**
  * @param {import("typescript").SourceFile} sourceFile
  * @param {import("../types").Position} position
