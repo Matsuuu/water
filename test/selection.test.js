@@ -2,7 +2,8 @@ import test from "node:test";
 import * as fs from "fs";
 import assert from 'node:assert/strict';
 import { readFileLine, readFileRange } from "../src/file/file.js";
-import { getNodeAtPosition, getProgramForProject } from "../src/tsserver/program.js";
+import { getProgramForProject } from "../src/tsserver/program.js";
+import { getNodeAtPosition } from "../src/ast/finder.js";
 
 const BASIC_FIXTURE = "./fixtures/basic.fixture.js"
 const BASIC_FIXTURE_NON_RELATIVE_PATH = "fixtures/basic.fixture.js"
@@ -26,4 +27,5 @@ test("Reading file function", async () => {
     const program = getProgramForProject(process.cwd(), [BASIC_FIXTURE]);
     const sf = program.getSourceFile(BASIC_FIXTURE_NON_RELATIVE_PATH);
     const node = getNodeAtPosition(sf, { line: 3, character: 10 })
+    console.log(node);
 });
