@@ -18,7 +18,9 @@ export function getProgramForProject(projectRoot, fileNames) {
         return PROGRAM_CACHE.get(projectRoot);
     }
 
-    const program = ts.createProgram(fileNames, TS_OPTIONS)
+    const compilerHost = ts.createCompilerHost(TS_OPTIONS, true);
+    const program = ts.createProgram(fileNames, TS_OPTIONS, compilerHost);
+
     PROGRAM_CACHE.set(projectRoot, program);
 
     return program;
