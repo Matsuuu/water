@@ -26,5 +26,4 @@ test("Reading file function", async () => {
     const program = getProgramForProject(process.cwd(), [BASIC_FIXTURE]);
     const sf = program.getSourceFile(BASIC_FIXTURE_NON_RELATIVE_PATH);
     const node = getNodeAtPosition(sf, { line: 3, character: 10 })
-    console.log(node);
 });
