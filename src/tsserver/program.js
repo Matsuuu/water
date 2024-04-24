@@ -1,5 +1,7 @@
 import ts from "typescript";
 
+export const SCRATCH_FILE_NAME = "__js_repl_scratch_file.js";
+
 /** @type { import("typescript").CompilerOptions } */
 const TS_OPTIONS = {
     // TODO
@@ -38,4 +40,22 @@ export function findConfigFile(projectRoot) {
 
     configFile = ts.findConfigFile(projectRoot, ts.sys.fileExists, "package.json");
     return configFile;
+}
+
+/**
+    * @param {import("../repl").REPLSession} session 
+    * */
+export function getSessionScratchFile(session) {
+    if (!session.scratchFile) {
+        session.scratchFile = createSourceFile(SCRATCH_FILE_NAME, "console.log('foo');");
+    }
+    return session.scratchFile;
+}
+
+/**
+ * @param {string} name
+ * @param {string} content
+ */
+export function createSourceFile(name, content) {
+    return ts.createSourceFile(name, content, ts.ScriptTarget.Latest, false, ts.ScriptKind.JS);
 }

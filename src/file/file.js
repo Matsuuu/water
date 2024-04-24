@@ -4,6 +4,7 @@ import * as readline from "readline";
 /**
  * @param {string} filePath
  * @param {import("../types").SelectionRange} [range]
+    * @returns { Promise<string> }
  */
 export async function readFileRange(filePath, range) {
     if (!range) {
